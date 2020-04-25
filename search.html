@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+        function largeDS(){
+            smallBoxes();
+            let sdsBtn = document.getElementById('smallDS');
+            sdsBtn.setAttribute("disabled","");
+            let sortingBtn = document.getElementById('sorting');
+            sortingBtn.setAttribute("disabled","");
+            let linSearchBtn = document.getElementById("linSearch");
+            let binSearchBtn = document.getElementById("binSearch");
+            linSearchBtn.addEventListener("click",smallBoxlinSearch);
+            binSearchBtn.addEventListener("click",smallBoxbinSearch)
+        }
+        function smallDS(){
+            largeBoxes();
+            let ldsBtn = document.getElementById('largeDS');
+            ldsBtn.setAttribute("disabled","");
+            let sortingBtn = document.getElementById('sorting');
+            sortingBtn.setAttribute("disabled","");
+            let linSearchBtn = document.getElementById("linSearch");
+            let binSearchBtn = document.getElementById("binSearch");
+            linSearchBtn.addEventListener("click",linSearch);
+            binSearchBtn.addEventListener("click",binSearch)
+        }
+        function sortingAlgo(){
+            newArr();
+            document.getElementById("numtofind").setAttribute("disabled","");
+            let ldsBtn = document.getElementById('largeDS');
+            ldsBtn.setAttribute("disabled","");
+            let sdsBtn = document.getElementById('smallDS');
+            sdsBtn.setAttribute("disabled","");
+            let linSearchBtn = document.getElementById("linSearch");
+            let binSearchBtn = document.getElementById("binSearch");
+            linSearchBtn.textContent = "Selection Sort";
+            binSearchBtn.textContent = "Bubble Sort";
+            linSearchBtn.addEventListener("click",setSelect);
+            binSearchBtn.addEventListener("click",setBubble)
+        }
+        function refresh(){
+            location.reload(true);
+        }
+    </script>
+</head>
+<body>
+    <canvas id="myCanvas" width="880" height="504" style="border:1px solid #c3c3c3;"></canvas>
+    <div>
+        <label>Enter number to find:</label>
+        <input id="numtofind" type="number" value=""/>
+    </div>
+    <div>
+        <button id="largeDS" onclick="largeDS()">Large Data Set</button>
+        <button id="smallDS" onclick="smallDS()">Small Data Set</button>
+        <button id="sorting" onclick="sortingAlgo()">Sorting/Randomize Array</button>
+        <button id="refresh" onclick="refresh()">Refresh</button>
+        <button id="linSearch" >Linear Search</button>
+        <button id="binSearch" >Binary Search</button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="largeBoxsearchAlgo.js"></script>
+</body>
+</html>
