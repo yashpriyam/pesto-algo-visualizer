@@ -1,3 +1,44 @@
+function largeDS(){
+    smallBoxes();
+    let sdsBtn = document.getElementById('smallDS');
+    sdsBtn.setAttribute("disabled","");
+    let sortingBtn = document.getElementById('sorting');
+    sortingBtn.setAttribute("disabled","");
+    let linSearchBtn = document.getElementById("linSearch");
+    let binSearchBtn = document.getElementById("binSearch");
+    linSearchBtn.addEventListener("click",smallBoxlinSearch);
+    binSearchBtn.addEventListener("click",smallBoxbinSearch)
+}
+function smallDS(){
+    largeBoxes();
+    let ldsBtn = document.getElementById('largeDS');
+    ldsBtn.setAttribute("disabled","");
+    let sortingBtn = document.getElementById('sorting');
+    sortingBtn.setAttribute("disabled","");
+    let linSearchBtn = document.getElementById("linSearch");
+    let binSearchBtn = document.getElementById("binSearch");
+    linSearchBtn.addEventListener("click",linSearch);
+    binSearchBtn.addEventListener("click",binSearch)
+}
+function sortingAlgo(){
+    newArr();
+    document.getElementById("numtofind").setAttribute("disabled","");
+    let ldsBtn = document.getElementById('largeDS');
+    ldsBtn.setAttribute("disabled","");
+    let sdsBtn = document.getElementById('smallDS');
+    sdsBtn.setAttribute("disabled","");
+    let linSearchBtn = document.getElementById("linSearch");
+    let binSearchBtn = document.getElementById("binSearch");
+    linSearchBtn.textContent = "Selection Sort";
+    binSearchBtn.textContent = "Bubble Sort";
+    linSearchBtn.addEventListener("click",setSelect);
+    binSearchBtn.addEventListener("click",setBubble)
+}
+function refresh(){
+    location.reload(true);
+}
+
+
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 let cvWidth = $('canvas').attr('width');
@@ -69,11 +110,8 @@ function linearSearch() {
         drawBarText(ctx,i,350,50,50,"white",boxSmallNumArr[boxCount+16],boxCount+16);
         // circleXpos.push(i)
         // console.log(i);
-    }
-    
-    if(ind===33){
-        return;
-    }else if(ind<=15){
+    };
+    if(ind<=15){
         drawCircle(circleXpos[ind],150,50,'black',5);
         if (boxSmallNumArr[ind] == value) {
             drawCircle(circleXpos[ind],150,50,'orange');
@@ -87,6 +125,10 @@ function linearSearch() {
             return ind;
         }
         ind++;
+        if(ind==32){
+            alert('Element not found in the current data set.');
+            return
+        }
     }
 };
 
