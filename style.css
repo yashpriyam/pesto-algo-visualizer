@@ -14,14 +14,6 @@
   button[class="btn"]:disabled {
     background: #dddddd;
   }
-
-  input[type="number"]:disabled {
-    background: lightgrey;
-  }
-  input[type="number"] {
-    border-width: 5px;
-    border-radius: 5px;
-  }
   .btn span {
     cursor: pointer;
     display: inline-block;
@@ -45,4 +37,13 @@
   .btn:hover span:after {
     opacity: 1;
     right: 0;
+  }
+
+  input[type="number"]:disabled {
+    background: lightgrey;
+  }
+  input[type="number"] {
+    border-width: 5px;
+    border-radius: 5px;
+    width: 13vw;
   }
