@@ -2,30 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
     <title>Algorithm Visualizations</title>
 </head>
 <body>
-    <div>
-        <button class="btn" id="largeDS" onclick="largeDS()"><span>Large Data Set</span></button>
-        <button class="btn" id="smallDS" onclick="smallDS()"><span>Small Data Set</span></button>
-        <button class="btn" id="sorting" onclick="sortingAlgo()"><span>Sort/Randomize Array</span></button>
-        <button class="btn" id="refresh" onclick="refresh()"><span>Refresh</span></button>
+    <div class="allfunctions">
+        <select id="myAlgos" onchange="AlgoForExecution(this)">
+            <option class="btn" id="disabled" disabled selected><span>Select Algo</span></option>
+            <option class="btn" id="largeDS"><span>Large Data Set</span></option>
+            <option class="btn" id="smallDS"><span>Small Data Set</span></option>
+            <option class="btn" id="sorting"><span>Sort/Randomize Array</span></option>
+        </select>
+        <button class="btn" id="refresh" onclick="refresh()"><span>Reset</span></button>
         <button class="btn" id="linSearch"><span>Linear Search</span></button>
         <button class="btn" id="binSearch"><span>Binary Search</span></button>
+        <div class="inputs">
+            <label>Enter number to find:</label><br>
+            <input id="numtofind" type="number" placeholder="Enter from dataset" value=""/>
+            <p>Animation Speed: <span id="demo"></span></p>
+            <div class="animationspeed">
+                <input type="range" min="10" max="1000" value="500" class="slider" id="sliderRange">
+            </div>
+        </div>
     </div>
-    <div>
-        <label>Enter number to find:</label>
-        <input id="numtofind" type="number" placeholder="Enter from dataset" value=""/>
-        <br>
-        <!-- <form oninput="x.value=parseInt(a.value)">
-            <input type="range" id="a" value="0">
-            <output name="x" for="a"></output>
-        </form>
-        <br> -->
-    </div>
-    <canvas id="myCanvas" width="880" height="504" style="border:1px solid #c3c3c3;"></canvas>
+    <canvas class="canvas" id="myCanvas" width="880" height="504"></canvas>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="algorithms.js"></script>
 </body>

@@ -1,4 +1,26 @@
-function largeDS(){
+let AlgoForExecution = (myAlgos) => {
+    let actionAlgo = myAlgos.options[myAlgos.selectedIndex].innerHTML;
+    switch(actionAlgo){
+        case "Large Data Set":
+            return largeDS();
+        case "Small Data Set":
+            return smallDS();
+        case "Sort/Randomize Array":
+            sortingAlgo();
+        default:
+            return;
+    }
+}
+
+let disableExecutionButtons = () => {
+    let binSearchBtn = document.getElementById("binSearch");
+    binSearchBtn.setAttribute("disabled","");
+    let linSearchBtn = document.getElementById("linSearch");
+    linSearchBtn.setAttribute("disabled","");
+    let numToFind = document.getElementById("numtofind");
+    numToFind.setAttribute("disabled","");
+}
+let largeDS = () => {
     smallBoxes();
     let sdsBtn = document.getElementById('smallDS');
     sdsBtn.setAttribute("disabled","");
@@ -6,10 +28,10 @@ function largeDS(){
     sortingBtn.setAttribute("disabled","");
     let linSearchBtn = document.getElementById("linSearch");
     let binSearchBtn = document.getElementById("binSearch");
-    linSearchBtn.addEventListener("click",smallBoxlinSearch);
-    binSearchBtn.addEventListener("click",smallBoxbinSearch)
+    linSearchBtn.addEventListener("click",largeDSlinSearch);
+    binSearchBtn.addEventListener("click",largeDSbinSearch)
 }
-function smallDS(){
+let smallDS = () => {
     largeBoxes();
     let ldsBtn = document.getElementById('largeDS');
     ldsBtn.setAttribute("disabled","");
@@ -20,7 +42,7 @@ function smallDS(){
     linSearchBtn.addEventListener("click",linSearch);
     binSearchBtn.addEventListener("click",binSearch)
 }
-function sortingAlgo(){
+let sortingAlgo = () => {
     newArr();
     document.getElementById("numtofind").setAttribute("disabled","");
     let ldsBtn = document.getElementById('largeDS');
@@ -34,7 +56,7 @@ function sortingAlgo(){
     linSearchBtn.addEventListener("click",setSelect);
     binSearchBtn.addEventListener("click",setBubble)
 }
-function refresh(){
+let refresh = () => {
     location.reload(true);
 }
 
@@ -43,10 +65,20 @@ let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 let cvWidth = $('canvas').attr('width');
 let cvHeight = $('canvas').attr('height');
+let rangeslider = document.getElementById("sliderRange");
+let output = document.getElementById("demo");
+output.innerHTML = rangeslider.value;
+let controlsetBubble = undefined;
+let controlsetSelect = undefined
+let controllargeDSbinSearch = undefined
+let controllargeDSlinSearch = undefined
+let controlbinSearch = undefined
+let controllinSearch = undefined
+
 
 let boxSmallNumArr = [];
 let circleXpos = [];
-function largeBoxes(){
+let largeBoxes = () => {
     ctx.clearRect(0, 0, cvWidth, cvHeight);
     let alibi = [];
     for(let i =0;i<=310;i++){
@@ -65,12 +97,10 @@ function largeBoxes(){
         drawBarText(ctx,i,350,50,50,"white",boxSmallNumArr[boxCount+16],boxCount+16);
         circleXpos.push(i)
     }
-    // location.reload(true);
 }
 
 
 function drawBarText(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color,int,boxCount){
-    //for drawing bars
     ctx.rect(upperLeftCornerX, upperLeftCornerY, width, height);
     ctx.fillStyle = color;
     ctx.lineWidth = 1;
@@ -81,7 +111,6 @@ function drawBarText(ctx, upperLeftCornerX, upperLeftCornerY, width, height,colo
     ctx.font = "10px small-caption";
     ctx.strokeText(int, upperLeftCornerX+25, upperLeftCornerY+28);
     ctx.restore();
-
     ctx.textAlign = "center";
     ctx.strokeText(boxCount, upperLeftCornerX+25, upperLeftCornerY+70);
     ctx.restore();
@@ -99,8 +128,6 @@ function drawCircle(upperLeftCornerX,upperLeftCornerY,width,color,linewidth){
 
 let ind = 0;
 function linearSearch() {
-    // console.log(boxSmallNumArr);
-    // console.log(circleXpos);
     ctx.clearRect(0, 0, cvWidth, cvHeight);
     let boxCount = -1;
     let value = document.getElementById("numtofind").value;
@@ -108,8 +135,6 @@ function linearSearch() {
         boxCount++;
         drawBarText(ctx,i,150,50,50,"white",boxSmallNumArr[boxCount],boxCount);
         drawBarText(ctx,i,350,50,50,"white",boxSmallNumArr[boxCount+16],boxCount+16);
-        // circleXpos.push(i)
-        // console.log(i);
     };
     if(ind<=15){
         drawCircle(circleXpos[ind],150,50,'black',5);
@@ -132,8 +157,6 @@ function linearSearch() {
     }
 };
 
-// console.log(boxSmallNumArr.length);
-
 let lowIndex = 0;
 let highIndex = 31;
 function binarySearch() {
@@ -146,9 +169,7 @@ function binarySearch() {
         drawBarText(ctx,i,150,50,50,"white",boxSmallNumArr[boxCount],boxCount);
         drawBarText(ctx,i,350,50,50,"white",boxSmallNumArr[boxCount+16],boxCount+16);
         circleXpos.push(i)
-        // console.log(i);
     }
-    // console.log(lowIndex,highIndex,midIndex);
     if(lowIndex>15){
         drawCircle(circleXpos[lowIndex-16],350,50,'black',5);
     }else{
@@ -179,33 +200,44 @@ function binarySearch() {
 
 
 }
-function linSearch(){
+function linSearch(linSearchspeed){
     let value = document.getElementById("numtofind").value;
+    if(linSearchspeed.isTrusted){
+        speed=500
+    }else{
+        speed=linSearchspeed;
+    }
     if(value==""){
         alert("Please enter a number from the data set to find");
         return;
     }else{
-        setInterval(linearSearch,500)
+        disableExecutionButtons();
+        controllinSearch = setInterval(linearSearch, (1000-speed));
+        return;
     }
 }
 
-function binSearch(){
+function binSearch(binSearchspeed){
     let value = document.getElementById("numtofind").value;
+    if(binSearchspeed.isTrusted){
+        speed=500
+    }else{
+        speed=binSearchspeed;
+    }
     if(value==""){
         alert("Please enter a number from the data set to find");
         return;
     }else{
-        setInterval(binarySearch,1000)
+        disableExecutionButtons();
+        controlbinSearch = setInterval(binarySearch, (1000-speed));
+        return;
     }
 }
-// console.log(Object.keys(window));
-// console.log(Object.values(window));
 ///////////////////////////////////////////////////////***///////////////////////
 
 let boxLargeNumArr;
 let circleSmallXpos = [];
 function smallBoxes(){
-    // location.reload(true);
     let alibi2 = [];
     for(let i =0;i<=10000;i++){
         alibi2.push(Math.round(Math.random()*1000))
@@ -224,14 +256,11 @@ function smallBoxes(){
         drawSmallBarText(ctx,i,150,25,25,"white",boxLargeNumArr[boxLargeCount+31],boxLargeCount+31);
         drawSmallBarText(ctx,i,250,25,25,"white",boxLargeNumArr[boxLargeCount+62],boxLargeCount+62);
         drawSmallBarText(ctx,i,350,25,25,"white",boxLargeNumArr[boxLargeCount+93],boxLargeCount+93);
-        circleSmallXpos.push(i)
-        // console.log(i);
+        circleSmallXpos.push(i);
     }
 }
-// console.log(boxLargeNumArr);
 
 function drawSmallBarText(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color,int,boxCount){
-    //for drawing bars
     ctx.rect(upperLeftCornerX, upperLeftCornerY, width, height);
     ctx.fillStyle = color;
     ctx.lineWidth = 1;
@@ -268,14 +297,11 @@ function smalllinearSearch() {
         drawSmallBarText(ctx,i,250,25,25,"white",boxLargeNumArr[boxLargeCount+62],boxLargeCount+62);
         drawSmallBarText(ctx,i,350,25,25,"white",boxLargeNumArr[boxLargeCount+93],boxLargeCount+93);
         circleSmallXpos.push(i)
-        // console.log(i);
     }
     if(ind2===124){
         return;
     }else if(ind2<=30){
-        // drawBar(circleSmallXpos[ind2],150,'black');
         drawSmallCircle(circleSmallXpos[ind2],50,30,'black',3);
-        // drawBarText(ctx,circleSmallXpos[ind2],150,50,50,"white",boxSmallNumArr[ind2],ind2);
         if (boxLargeNumArr[ind2] == value) {
             drawSmallCircle(circleSmallXpos[ind2],50,30,'orange');
             return ind2;
@@ -319,9 +345,7 @@ function smallbinarySearch() {
         drawSmallBarText(ctx,i,250,25,25,"white",boxLargeNumArr[boxLargeCount+62],boxLargeCount+62);
         drawSmallBarText(ctx,i,350,25,25,"white",boxLargeNumArr[boxLargeCount+93],boxLargeCount+93);
         circleSmallXpos.push(i)
-        // console.log(i);
     }
-    // console.log(lowInd,highInd,midInd);
     if(lowInd<=30){
         drawSmallCircle(circleSmallXpos[lowInd],50,30,'black',3);
     }else if(lowInd>30 && lowInd<=61){
@@ -366,28 +390,42 @@ function smallbinarySearch() {
         highInd = midInd - 1;
     }
 }
-function smallBoxlinSearch(){
+function largeDSlinSearch(largeDSlinSearchspeed){
     let value = document.getElementById("numtofind").value;
+    if(largeDSlinSearchspeed.isTrusted){
+        speed=500
+    }else{
+        speed=largeDSlinSearchspeed;
+    }
     if(value==""){
         alert("Please enter a number from the data set to find");
         return;
     }else{
-        setInterval(smalllinearSearch,500)
+        disableExecutionButtons();
+        controllargeDSlinSearch = setInterval(smalllinearSearch, (1000-speed));
+        return;
     }
 }
 
-function smallBoxbinSearch(){
+function largeDSbinSearch(largeDSbinSearchspeed){
     let value = document.getElementById("numtofind").value;
+    if(largeDSbinSearchspeed.isTrusted){
+        speed=500
+    }else{
+        speed=largeDSbinSearchspeed;
+    }
     if(value==""){
         alert("Please enter a number from the data set to find");
         return;
     }else{
-        setInterval(smallbinarySearch,500)
+        disableExecutionButtons();
+        controllargeDSbinSearch = setInterval(smallbinarySearch, (1000-speed));
+        return;
     }
 }
 
 ///////////////////////**********************////////////////////////////// */
-
+//////////sorting algos/////////////////
 let actArr;
 let xPos;
 let i = 0;
@@ -400,24 +438,20 @@ function newArr(){
         drawBar(ctx,i,250,15,height,"#FF0000");
         actArr.push(Math.abs(height));
         xPos.push(i);
-        // console.log(i);
     }
-    // console.log(actArr);
-// console.log(xPos);
+    
+
 }
-// newArr();
 function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color){
-    //for drawing bars
     ctx.save();
     ctx.fillStyle=color;
     ctx.fillRect(upperLeftCornerX,upperLeftCornerY,width,height*2);
     ctx.restore();
-    //for writing text:
     ctx.textAlign = "center";
     ctx.fillText(Math.abs(height), upperLeftCornerX+7, upperLeftCornerY+10);
     ctx.restore();
 };
-// console.log(actArr);
+
 
 function selectionSort(){
     if(i==actArr.length){
@@ -446,7 +480,7 @@ function selectionSort(){
 }
 
 
-function stopFucn(x){
+function stopFunc(x){
     let sortArr = [...actArr];
     sortArr.sort((a,b)=>a-b);
     for(let i=0;i<=x.length+1;i++){
@@ -459,9 +493,8 @@ function stopFucn(x){
 };
 
 function bubbleSort() {
-    if(stopFucn(actArr)){
-        // console.log(stopFucn(actArr));
-        clearInterval(setBubble)
+    if(stopFunc(actArr)){
+        clearInterval(controlsetBubble)
     }else{
         ctx.clearRect(0, 0, cvWidth, cvHeight);
         if (actArr[i] > actArr[i + 1]) {
@@ -478,18 +511,60 @@ function bubbleSort() {
             }else{
                 drawBar(ctx,k,250,15,-actArr[count2],"#FF0000");
             }
-        }
-        
+        };
         i++;
         if(i==39){
             i=0;
-        }
+        };
     }
 };
        
-function setSelect(){
-    setInterval(selectionSort, 25);
+function setSelect(setSelectspeed){
+    console.log(setSelectspeed);
+    if(setSelectspeed.isTrusted){
+        speed=500
+    }else{
+        speed=setSelectspeed
+    }
+    disableExecutionButtons();
+    controlsetSelect = setInterval(selectionSort, (1000-speed));
+    return;
 }
-function setBubble(){
-    setInterval(bubbleSort, 50);
+
+
+function setBubble(setBubblespeed){
+    console.log(setBubblespeed);
+    if(setBubblespeed.isTrusted){
+        speed=500
+    }else{
+        speed=setBubblespeed;
+    }
+    disableExecutionButtons();
+    controlsetBubble = setInterval(bubbleSort, (1000-speed));
+    return;
 }
+
+
+
+rangeslider.oninput = () => {
+    output.innerHTML = rangeslider.value;
+    if(controlsetBubble){
+        clearInterval(controlsetBubble);
+        setBubble(rangeslider.value);
+    }else if(controlsetSelect){
+        clearInterval(controlsetSelect);
+        setSelect(rangeslider.value);
+    }else if(controllargeDSbinSearch){
+        clearInterval(controllargeDSbinSearch);
+        largeDSbinSearch(rangeslider.value);
+    }else if(controllargeDSlinSearch){
+        clearInterval(controllargeDSlinSearch);
+        largeDSlinSearch(rangeslider.value);
+    }else if(controlbinSearch){
+        clearInterval(controlbinSearch);
+        binSearch(rangeslider.value);
+    }else if(controllinSearch){
+        clearInterval(controllinSearch);
+        linSearch(rangeslider.value);
+    }
+};
